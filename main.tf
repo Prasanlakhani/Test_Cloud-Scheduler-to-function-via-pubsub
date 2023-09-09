@@ -89,8 +89,3 @@ resource "google_pubsub_topic" "schedule_function_topic" {
   name    = "schedule-function-topic"
   project = var.project_id
 }
-
-# Output the Cloud Function URL
-output "function_url" {
-  value = google_cloudfunctions_function.my_cloud_function.https_trigger_url
-}
