@@ -54,12 +54,8 @@ resource "google_cloudfunctions_function" "my_cloud_function" {
 
 
 	event_trigger {
-    #trigger_region = "us-central1"
-    #event_type     = "google.cloud.pubsub.topic.v1.messagePublished"
 	event_type     = "google.pubsub.topic.publish"
     resource   = google_pubsub_topic.schedule_function_topic.name
-	#service= "pubsub.googleapis.com"
-    #retry_policy   = "RETRY_POLICY_RETRY"
   }
 
   service_account_email = google_service_account.function_sa.email
@@ -69,13 +65,12 @@ resource "google_cloudfunctions_function" "my_cloud_function" {
 resource "google_cloud_scheduler_job" "schedule_function" {
   name    = "schedule-function-job"
   project = var.project_id
-  #region = "us-central1"
+
   schedule = "every 1 hours" 
 
 
   pubsub_target {
     topic_name = "projects/${var.project_id}/topics/schedule-function-topic"
-    #data = "Triggering Cloud Function"  
     data = base64encode("{\"Test\":\"No_1\"}")
   }
 }
