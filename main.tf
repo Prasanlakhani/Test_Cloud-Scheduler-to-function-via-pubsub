@@ -33,8 +33,6 @@ data "archive_file" "archive_code" {
 resource "google_storage_bucket_object" "archive" {
   name   = "code.zip"
   bucket = google_storage_bucket.bucket.name
-  #source = "./path/to/zip/file/which/contains/code"
-  #source = "/home/prasanchandra_lakhani/test-tf/CS-CF/abc.py"
   source              = data.archive_file.archive_code.output_path
   content_disposition = "attachment"
   content_encoding    = "gzip"
@@ -53,9 +51,7 @@ resource "google_cloudfunctions_function" "my_cloud_function" {
   #trigger_http          = true
   #max_instance_count = 1
   available_memory_mb   = 256
-  #timeouts {
-  #  execution = "60"
-  #}
+
 
 	event_trigger {
     #trigger_region = "us-central1"
@@ -74,13 +70,13 @@ resource "google_cloud_scheduler_job" "schedule_function" {
   name    = "schedule-function-job"
   project = var.project_id
   #region = "us-central1"
-  schedule = "every 1 hours" # Adjust the schedule as needed
+  schedule = "every 1 hours" 
 
 
   pubsub_target {
     topic_name = "projects/${var.project_id}/topics/schedule-function-topic"
-    #data = "Triggering Cloud Function"  # This data can be any string you want to pass to the Cloud Function
-    data = base64encode("{\"foo\":\"bar\"}")
+    #data = "Triggering Cloud Function"  
+    data = base64encode("{\"Test\":\"No_1\"}")
   }
 }
 
